@@ -38,7 +38,6 @@ type Product = {
 const fetchProductData = async (id: string): Promise<Product> => {
   const res = await fetch(`https://dummyjson.com/products/${id}`);
   const data = await res.json();
-  console.log(data);
 
   return data;
 };
@@ -46,9 +45,10 @@ const fetchProductData = async (id: string): Promise<Product> => {
 export default async function ProductDetail({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const product = await fetchProductData(params.id);
+  const { id } = await params;
+  const product = await fetchProductData(id);
 
   return (
     <div className="container mx-auto px-4 py-8">
